@@ -1,8 +1,33 @@
-<?php
+ <?php
+     $connect = mysqli_connect('localhost', 'root', '', 'WEB_NANGCAO');
+     mysqli_set_charset($connect, 'utf8');
 
-$connect = mysqli_connect('localhost', 'root', '', 'WEB_NANGCAO');
-mysqli_set_charset($connect, 'utf8');
+     switch ($action) {
+          case '':
+               $sql = "select * from sinh_vien";
+               $result = mysqli_query($connect, $sql);
+               break;
 
-$sql = "SELECT * FROM mon_an where ten = '$mon'";
-$result = mysqli_query($connect, $sql);
-$each = mysqli_fetch_array($result);
+          case 'store':
+               $sql = "insert into sinh_vien(ten) value ('$ten')";
+               mysqli_query($connect, $sql);
+               header('location:index.php');
+               break;
+
+          case 'edit':
+               $sql = "select * from sinh_vien where ma='$ma'";
+               $result = mysqli_query($connect, $sql);
+               $each = mysqli_fetch_array($result);
+               break;
+
+          case 'update':
+               $sql = "update sinh_vien set ten ='$ten'   where ma='$ma'";
+               mysqli_query($connect, $sql);
+
+               break;
+          case 'delete':
+               $sql = "delete from sinh_vien  where ma='$ma'";
+               mysqli_query($connect, $sql);
+               break;
+     }
+     mysqli_close($connect);
